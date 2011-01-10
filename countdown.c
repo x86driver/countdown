@@ -10,7 +10,7 @@ int main()
 	gmtime_r(&t, &now);
 	future = now;
 
-	future.tm_year += 2;
+	future.tm_year = 112;
 	future.tm_mon = 9;
 	future.tm_mday = 23;
 	future.tm_hour = future.tm_min = future.tm_sec = 0;
