@@ -6,36 +6,47 @@
   diff2 = now - begin
 */
 
-int main()
+void init_tm(struct tm *t, int mon, int day, int hour, int min)
 {
-	struct tm begin, end, now;
+	struct tm now;
+	time_t now_t = time(NULL);
+	gmtime_r(&now_t, &now);
+	*t = now;
+
+	t->tm_year = 112;
+	t->tm_mon = mon-1;
+	t->tm_mday = day;
+	t->tm_hour = hour;
+	t->tm_min = min;
+	t->tm_sec = 0;
+}
+
+double percent(struct tm *begin, struct tm *end)
+{
+	struct tm now;
 	time_t now_t = time(NULL);
 	time_t begin_t, end_t;
 
 	gmtime_r(&now_t, &now);
-	begin = end = now;
 
-	begin.tm_year = 112;
-	begin.tm_mon = 1;
-	begin.tm_mday = 10;
-	begin.tm_hour = 20;
-	begin.tm_min = begin.tm_sec = 0;
-
-	end.tm_year = 112;
-	end.tm_mon = 1;
-	end.tm_mday = 12;
-	end.tm_hour = 16;
-	end.tm_min = end.tm_sec = 0;
-
-	begin_t = mktime(&begin);
-	end_t = mktime(&end);
+	begin_t = mktime(begin);
+	end_t = mktime(end);
 
 	double diff1 = difftime(end_t, begin_t);
 	double diff2 = difftime(now_t, begin_t);
 	double percent = diff2 / diff1 * 100.0;
 
-	printf("%.10lf%%\n", percent);
+	return percent;
+}
+
+int main()
+{
+	struct tm begin, end;
+
+	init_tm(&begin, 2, 12, 16, 0);
+	init_tm(&end, 2, 17, 17, 0);
+
+	printf("%.10lf%%\n", percent(&begin, &end));
 
 	return 0;
 }
-
