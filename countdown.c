@@ -7,7 +7,7 @@ int main()
 	time_t t = time(NULL);
 	time_t fut;
 
-	gmtime_r(&t, &now);
+	localtime_r(&t, &now);
 	future = now;
 
 	future.tm_year = 112;
@@ -19,8 +19,8 @@ int main()
 	double diff = difftime(fut, t);
 	unsigned int day = (diff / 86400) + 1;
 
-	printf("%d/%d/%d %d:%d\n", now.tm_year+1900, now.tm_mon+1, now.tm_mday, now.tm_min, now.tm_sec);
-	printf("%f seconds\n", diff);
+	printf("%d/%02d/%02d %02d:%02d:%02d\n", now.tm_year+1900, now.tm_mon+1, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec);
+	printf("%.0f seconds\n", diff);
 	printf("%d days\n", day);
 	return 0;
 }
